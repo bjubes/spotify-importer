@@ -6,6 +6,7 @@ export const Callback = () => {
   const token = params.get('access_token')
   const tokenType = params.get('token_type')
   const expiresIn = parseInt(params.get('expires_in'))
+  //TODO: pass and check state for CSRF protetion
   const state = params.get('state')  
   const date = new Date()
   date.setSeconds( date.getSeconds() + expiresIn)
