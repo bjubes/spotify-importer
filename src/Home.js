@@ -9,12 +9,10 @@ export const Home = () => {
 
   //show OAuth popup
   const handleSpotifyLogin = () => {
-    const redirectUrl = encodeURIComponent("http://localhost:3000/callback")
-    const scope = "user-read-private%20user-read-email%20playlist-modify-public%20playlist-modify-private"
     var url = "https://accounts.spotify.com/authorize?"
     url += `client_id=${Constants.SPOTIFY_CLIENT_ID}&`
-    url += `redirect_uri=${redirectUrl}&`
-    url += `scope=${scope}&`
+    url += `redirect_uri=${Constants.SPOTIFY_AUTH_REDIRECT_URL}&`
+    url += `scope=${Constants.SPOTIFY_PERM_SCOPE}&`
     url += "response_type=token"
     const width = 520
     const height = 805
