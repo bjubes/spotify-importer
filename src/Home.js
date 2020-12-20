@@ -51,7 +51,7 @@ export const Home = (props) => {
       <Jumbotron>
         <h1>Spotify Importer</h1>
         <p>Import your iTunes or Apple Music library into Spotify</p>
-        {tokenData == null && <Button variant="primary" onClick={handleSpotifyLogin}>Login with Spotify</Button>}
+        {tokenData == null && <Button variant="primary" size="lg" onClick={handleSpotifyLogin}>Login with Spotify</Button>}
         {tokenData != null && < SpotifyUser {...tokenData} signOut={()=>{setTokenData(null)}} />}
       </Jumbotron>
     </div>

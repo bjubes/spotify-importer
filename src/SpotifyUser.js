@@ -14,10 +14,12 @@ const [email, setEmail] = useState(null)
      setEmail(data['email'])
     })
 
-  return (
-    <div>
-      {name && <p>Signed in as {name} ({email})</p> }
-      <Button variant="danger" onClick={props.signOut}>Sign Out</Button>
-    </div>
+if (!name || !email) {
+  return <p></p>
+}
+return (
+      <p>Signed in as {name} ({email}) 
+        <Button variant="danger" size='sm' onClick={props.signOut}> Sign Out </Button>
+      </p>
   )
 }
