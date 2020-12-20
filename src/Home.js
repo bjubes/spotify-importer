@@ -3,19 +3,20 @@ import { useEffect, useState } from 'react'
 import Constants from './Constants'
 import { Button, Jumbotron } from 'react-bootstrap'
 import { SpotifyUser } from './SpotifyUser'
-export const Home = (props) => {
+export const Home = () => {
   //defauts to null
   const [tokenData, setTokenData] = useState(JSON.parse(window.localStorage.getItem('tokenData')))
 
   //show OAuth popup
   const handleSpotifyLogin = () => {
     //put csrf in localStorage so callback can access it
-    window.localStorage.setItem('csrf', props.csrf)
+    const csrf = generateUUID(32)
+    window.localStorage.setItem('csrf', csrf)
     var url = "https://accounts.spotify.com/authorize?"
     url += `client_id=${Constants.SPOTIFY_CLIENT_ID}&`
     url += `redirect_uri=${Constants.SPOTIFY_AUTH_REDIRECT_URL}&`
     url += `scope=${Constants.SPOTIFY_PERM_SCOPE}&`
-    url += `state=${props.csrf}&`
+    url += `state=${csrf}&`
     url += "response_type=token"
     const width = 520
     const height = 805
@@ -63,4 +64,16 @@ export const Home = (props) => {
       </Jumbotron>
     </div>
   )
+}
+
+
+function dec2hex(dec) {
+  return dec.toString(16).padStart(2, "0")
+}
+
+// generateId :: Integer -> String
+function generateUUID(len) {
+  var arr = new Uint8Array((len || 40) / 2)
+  window.crypto.getRandomValues(arr)
+  return Array.from(arr, dec2hex).join('')
 }
