@@ -41,9 +41,16 @@ export const Home = (props) => {
     window.addEventListener('storage', handler, false)
   }, [])
 
-  //persist tokenData through reload
   useEffect(() => {
+    //persist tokenData through reload
     localStorage.setItem('tokenData', JSON.stringify(tokenData))
+    //invalidate expired token
+    if (tokenData && tokenData.expireDate) {
+      if (new Date(tokenData.expireDate) < new Date()) {
+        console.log("token expired") //remove once tested
+        setTokenData(null)
+      }
+    }
   }, [tokenData])
 
   return (
