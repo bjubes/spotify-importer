@@ -1,8 +1,8 @@
 
-import { useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import Constants from './Constants'
 import { Button, Jumbotron } from 'react-bootstrap'
-import {SpotifyUser} from './SpotifyUser'
+import { SpotifyUser } from './SpotifyUser'
 export const Home = (props) => {
   //defauts to null
   const [tokenData, setTokenData] = useState(JSON.parse(window.localStorage.getItem('tokenData')))
@@ -10,7 +10,7 @@ export const Home = (props) => {
   //show OAuth popup
   const handleSpotifyLogin = () => {
     //put csrf in localStorage so callback can access it
-    window.localStorage.setItem('csrf',props.csrf)
+    window.localStorage.setItem('csrf', props.csrf)
     var url = "https://accounts.spotify.com/authorize?"
     url += `client_id=${Constants.SPOTIFY_CLIENT_ID}&`
     url += `redirect_uri=${Constants.SPOTIFY_AUTH_REDIRECT_URL}&`
@@ -43,16 +43,16 @@ export const Home = (props) => {
 
   //persist tokenData through reload
   useEffect(() => {
-    localStorage.setItem('tokenData',JSON.stringify(tokenData))
-  },[tokenData])
-  
+    localStorage.setItem('tokenData', JSON.stringify(tokenData))
+  }, [tokenData])
+
   return (
     <div className="App">
       <Jumbotron>
         <h1>Spotify Importer</h1>
         <p>Import your iTunes or Apple Music library into Spotify</p>
         {tokenData == null && <Button variant="primary" size="lg" onClick={handleSpotifyLogin}>Login with Spotify</Button>}
-        {tokenData != null && < SpotifyUser {...tokenData} signOut={()=>{setTokenData(null)}} />}
+        {tokenData != null && < SpotifyUser {...tokenData} signOut={() => { setTokenData(null) }} />}
       </Jumbotron>
     </div>
   )

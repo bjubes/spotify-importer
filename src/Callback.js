@@ -15,14 +15,14 @@ export const Callback = () => {
   }
   window.localStorage.removeItem('csrf')
   const date = new Date()
-  date.setSeconds( date.getSeconds() + expiresIn)
+  date.setSeconds(date.getSeconds() + expiresIn)
   const token_info = {
     token: token,
     tokenType: tokenType,
     expireDate: date,
   }
 
-  window.localStorage.setItem('token',JSON.stringify(token_info))
+  window.localStorage.setItem('token', JSON.stringify(token_info))
   window.close()
   return (
     <p>Auth Complete. Return to main window.</p>
