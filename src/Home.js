@@ -16,8 +16,8 @@ export const Home = () => {
     url += `redirect_uri=${redirectUrl}&`
     url += `scope=${scope}&`
     url += "response_type=token"
-    const width = 300
-    const height = 400
+    const width = 520
+    const height = 805
     const left = window.outerWidth / 2;
     const top = 140;
 
@@ -30,7 +30,11 @@ export const Home = () => {
     window.addEventListener('storage', () => {
       const data = JSON.parse(window.localStorage.getItem('token'))
       console.log(data)
-      setTokenData(data)
+      if (data.token) {
+        setTokenData(data)
+      } else {
+        //OAuth declined.
+      }
     })
   }, [])
 
