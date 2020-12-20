@@ -1,3 +1,4 @@
+import { propTypes } from "react-bootstrap/esm/Image"
 
 //Component is only loaded when spotify responds to auth request.
 export const Callback = () => {
@@ -6,8 +7,13 @@ export const Callback = () => {
   const token = params.get('access_token')
   const tokenType = params.get('token_type')
   const expiresIn = parseInt(params.get('expires_in'))
-  //TODO: pass and check state for CSRF protetion
-  const state = params.get('state')  
+  const state = params.get('state')
+  const csrf = window.localStorage.getItem('csrf')
+  if (state !== csrf) {
+    //crsf detected
+    return null
+  }
+  window.localStorage.removeItem('csrf')
   const date = new Date()
   date.setSeconds( date.getSeconds() + expiresIn)
   const token_info = {

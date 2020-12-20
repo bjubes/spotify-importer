@@ -3,16 +3,19 @@ import { useEffect, useState} from 'react'
 import Constants from './Constants'
 import { Button, Jumbotron } from 'react-bootstrap'
 import {SpotifyUser} from './SpotifyUser'
-export const Home = () => {
+export const Home = (props) => {
   //defauts to null
   const [tokenData, setTokenData] = useState(JSON.parse(window.localStorage.getItem('tokenData')))
 
   //show OAuth popup
   const handleSpotifyLogin = () => {
+    //put csrf in localStorage so callback can access it
+    window.localStorage.setItem('csrf',props.csrf)
     var url = "https://accounts.spotify.com/authorize?"
     url += `client_id=${Constants.SPOTIFY_CLIENT_ID}&`
     url += `redirect_uri=${Constants.SPOTIFY_AUTH_REDIRECT_URL}&`
     url += `scope=${Constants.SPOTIFY_PERM_SCOPE}&`
+    url += `state=${props.csrf}&`
     url += "response_type=token"
     const width = 520
     const height = 805
@@ -25,15 +28,17 @@ export const Home = () => {
 
   //recieve token from OAuth popup
   useEffect(() => {
-    window.addEventListener('storage', () => {
+    const handler = () => {
       const data = JSON.parse(window.localStorage.getItem('token'))
-      console.log(data)
+      if (!data) return
       if (data.token) {
         setTokenData(data)
       } else {
         //OAuth declined.
       }
-    })
+      window.localStorage.removeItem('token')
+    }
+    window.addEventListener('storage', handler, false)
   }, [])
 
   //persist tokenData through reload
