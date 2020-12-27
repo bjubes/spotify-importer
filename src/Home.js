@@ -48,7 +48,6 @@ export const Home = () => {
     //invalidate expired token
     if (tokenData && tokenData.expireDate) {
       if (new Date(tokenData.expireDate) < new Date()) {
-        console.log("token expired") //remove once tested
         setTokenData(null)
       }
     }
